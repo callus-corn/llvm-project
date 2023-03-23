@@ -1220,6 +1220,8 @@ StringRef ELFObjectFile<ELFT>::getFileFormatName() const {
       return "elf32-loongarch";
     case ELF::EM_XTENSA:
       return "elf32-xtensa";
+    case ELF::EM_CPU0:
+      return "ELF32-cpu0";
     default:
       return "elf32-unknown";
     }
@@ -1346,6 +1348,14 @@ template <class ELFT> Triple::ArchType ELFObjectFile<ELFT>::getArch() const {
 
   case ELF::EM_XTENSA:
     return Triple::xtensa;
+
+  case ELF::EM_CPU0:
+    switch (EF.getHeader().e_ident[ELF::EI_CLASS]) {
+    case ELF::ELFCLASS32:
+      return IsLittleEndian ? Triple::cpu0el : Triple::cpu0;
+    default:
+      report_fatal_error("Invalid ELFCLASS!");
+    }
 
   default:
     return Triple::UnknownArch;
