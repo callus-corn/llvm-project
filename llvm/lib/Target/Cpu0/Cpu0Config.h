@@ -24,6 +24,6 @@
 #define CH11_2    112
 #define CH12_1    121
 
-#define CH        CH12_1
+#define CH        CH3_1
 
 #endif
